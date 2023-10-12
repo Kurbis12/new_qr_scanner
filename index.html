@@ -27,7 +27,7 @@
     </div>
     <div style="text-align: center; margin-top: 20px;">
         <!-- Embed the Dash app using an iframe -->
-        <iframe src="http://192.168.200.223:8059/" width="400" height="600" frameborder="0"></iframe>
+        <iframe src="your url" width="400" height="600" frameborder="0"></iframe>
     </div>
     <script>
         // Your QR code scanning logic here
@@ -70,7 +70,7 @@
         // Function to send scanned data to the Dash app
         function sendScannedDataToDash(data) {
             // Replace this URL with the correct endpoint of your Dash app
-            const dashAppURL = 'http://192.168.200.223:8059/receive_scanned_data';
+            const dashAppURL = 'your url/receive_scanned_data';
 
             fetch(dashAppURL, {
                 method: 'POST',
