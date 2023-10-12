@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>irrigation</title>
+    <link rel="stylesheet" href="./style.css">
+    <h1>Irrigation accounting</h1>
+    <script src="send_data.js"></script>
+    <!-- Include the required dependencies for QR code scanning -->
+    <script src="saveResult.js"></script>
+    <script src="qrScript.js"></script>
+
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <div id="reader" style="width: 300px;"></div>
+        <div id="show" style="display: none;">
+            <h4>Scanned results</h4>
+            <p id="result"></p>
+        </div>
+        <button id="startScanButton">Start Scanning</button>
+        <button id="reloadButton" onclick="location.reload();">Reload Page</button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <!-- Embed the Dash app using an iframe -->
+        <iframe src="http://192.168.200.223:8059/" width="400" height="600" frameborder="0"></iframe>
+    </div>
+    <script>
+        // Your QR code scanning logic here
+        let isScanning = false;
+        const html5Qrcode = new Html5Qrcode('reader');
+
+        const config = {
+            fps: 20,
+            qrbox: {
+                width: 150,
+                height: 150
+            }
+        }
+
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            if (decodedText) {
+                document.getElementById('show').style.display = 'block';
+                document.getElementById('result').textContent = decodedText;
+                html5Qrcode.stop();
+                isScanning = false;
+
+                // Send the scanned data to the Dash app
+                sendScannedDataToDash(decodedText);
+
+                // Automatically trigger the download
+                downloadScannedResult(decodedText);
+            }
+        }
+
+        const startScanButton = document.getElementById('startScanButton');
+        startScanButton.addEventListener('click', () => {
+            if (!isScanning) {
+                html5Qrcode.start({
+                    facingMode: "environment"
+                }, config, qrCodeSuccessCallback);
+                isScanning = true;
+            }
+        });
+
+        // Function to send scanned data to the Dash app
+        function sendScannedDataToDash(data) {
+            // Replace this URL with the correct endpoint of your Dash app
+            const dashAppURL = 'http://192.168.200.223:8059/receive_scanned_data';
+
+            fetch(dashAppURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ scannedData: data }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Scanned data sent to Dash app successfully.');
+                } else {
+                    console.error('Error sending scanned data to Dash app.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
