@@ -1,0 +1,22 @@
+h1 {
+    text-align: center;
+
+    }
+
+
+#startScanButton {
+    padding: 14px 40px;
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    border-radius: 12px;
+
+    }
+#startScanButton:hover {
+  background-color: #4CAF50;
+  color: white;
+
+#reloadButton {
+    color:red;
+
+    }
