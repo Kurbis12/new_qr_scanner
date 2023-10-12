@@ -1,5 +1,5 @@
 // Replace 'your_dash_server_url' with the actual URL of your Dash app server
-const dashServerUrl = 'http://192.168.200.223/receive_scanned_data';
+const dashServerUrl = 'your url/receive_scanned_data';
 
 const scannedData = 'scanned_result';  // Replace with your actual scanned data
 
