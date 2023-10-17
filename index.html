@@ -7,29 +7,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>irrigation</title>
     <link rel="stylesheet" href="./style.css">
-    <h1>Irrigation accounting</h1>
+
     <script src="send_data.js"></script>
-    <!-- Include the required dependencies for QR code scanning -->
+    <!-- JS scripts for qrcode scanning -->
     <script src="saveResult.js"></script>
     <script src="qrScript.js"></script>
+
+
 
 </head>
 
 <body>
-    <div style="text-align: center;">
-        <div id="reader" style="width: 300px;"></div>
+
+
+        <!--     Heading -->
+    <div class="one">
+        <h1>Irrigation accounting</h1>
+    </div>
+
+        <!--   Qrcode scanner video system -->
+    <div>
+        <div class="read" id="reader"></div>
+    </div>
+
+        <!--  Scaned QRcode result (Includes also Buttons-->
+    <div class="text">
         <div id="show" style="display: none;">
             <h4>Scanned results</h4>
             <p id="result"></p>
         </div>
-        <button id="startScanButton">Start Scanning</button>
-        <button id="reloadButton" onclick="location.reload();">Reload Page</button>
+
+        <!-- Start scanning Button -->
+        <div class="startb">
+            <button id="startScanButton">Start Scanning</button>
+        </div>
+
+        <!-- Reload Button -->
+        <div class="reloadb">
+            <button class="btn" id="reloadButton" onclick="location.reload();">Reload</button>
+        </div>
     </div>
-    <div style="text-align: center; margin-top: 20px;">
+        <!-- Line -->
+    <hr width=" 100px">
+
         <!-- Embed the Dash app using an iframe -->
-        <iframe src="your url" width="400" height="600" frameborder="0"></iframe>
+    <div style="text-align: center; margin-top: 20px;">
+        <iframe src="http://192.168.200.223:8059/" width="400" height="500" frameborder="0" allow="camera"></iframe>
     </div>
+
+        <!-- JS script for scanning QRcode -->
     <script>
+
+
+
         // Your QR code scanning logic here
         let isScanning = false;
         const html5Qrcode = new Html5Qrcode('reader');
@@ -70,31 +100,28 @@
         // Function to send scanned data to the Dash app
         function sendScannedDataToDash(data) {
             // Replace this URL with the correct endpoint of your Dash app
-            const dashAppURL = 'your url/receive_scanned_data';
+            const dashAppURL = 'http://192.168.200.223:8059/receive_scanned_data';
 
             fetch(dashAppURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ scannedData: data }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Scanned data sent to Dash app successfully.');
-                } else {
-                    console.error('Error sending scanned data to Dash app.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        scannedData: data
+                    }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Scanned data sent to Dash app successfully.');
+                    } else {
+                        console.error('Error sending scanned data to Dash app.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
-
-
-
-
-
     </script>
 </body>
 
